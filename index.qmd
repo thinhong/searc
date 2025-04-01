@@ -1,0 +1,153 @@
+---
+title: "Draft"
+format: html
+execute: 
+  echo: false
+  warning: false
+---
+
+```{r}
+library(tidyverse)
+
+df <- readRDS("data/data_cleaned.rds")
+
+compute_pct_by_country <- function(data, country, col) {
+  data |>
+    group_by({{country}}, {{col}}) |>
+    count() |>
+    group_by({{country}}) |>
+    mutate(pct = 100 * n / sum(n))
+}
+
+plot_pct_by_country <- function(data, country, col, pct, n) {
+  ggplot(data, aes(x = fct_rev({{col}}), y = {{pct}})) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = paste0({{n}}, " (", round({{pct}}, 0), "%)")), hjust = -0.1, size = 3) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)) +
+    coord_flip() +
+    facet_wrap(vars({{country}})) +
+    labs(x = NULL, y = "Percentage") +
+    theme_light()
+}
+```
+
+## Gender
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q1)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q1, pct = pct, n = n)
+```
+
+## Years of experience
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q4)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q4, pct = pct, n = n)
+```
+
+## Organization
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q5_category)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q5_category, pct = pct, n = n)
+```
+
+## Job
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5.5
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q7)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q7, pct = pct, n = n)
+```
+
+## Main questions
+
+> I think research culture is evolving for the better
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q9_1)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q9_1, pct = pct, n = n)
+```
+
+> There is equity in decision-making and giving credit for research within my organisation
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q9_2)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q9_2, pct = pct, n = n)
+```
+
+> International research funders and/or foreign researchers dominate the research priorities of my country
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q9_3)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q9_3, pct = pct, n = n)
+```
+
+> I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q9_4)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q9_4, pct = pct, n = n)
+```
+
+> At my organization, there is collaboration rather than competition between researchers
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q9_5)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q9_5, pct = pct, n = n)
+```
+
+> Do you think career progression (for instance, to senior positions) is harder for certain groups of researchers, e.g., women, early career researchers?
+
+***Noted that this question may be incorrect for participants in Vietnamese, Lao PDR... due to an error in translation that I've reported to Nina***
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = q10)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q10, pct = pct, n = n)
+```
+
+
+
+```{r}
+
+```
+
