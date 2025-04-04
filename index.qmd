@@ -75,7 +75,19 @@ df_plot <- compute_pct_by_country(data = df, country = q2, col = q7)
 plot_pct_by_country(data = df_plot, country = q2, col = q7, pct = pct, n = n)
 ```
 
-## Main questions
+::: {.callout-note collapse="true" appearance="simple"}
+
+## The "Others" that weren't be grouped
+
+```{r}
+df |> 
+  filter(q7 == "Other, please specify:") |> 
+  pull(q7_12_text)
+```
+
+:::
+
+## Main questions by country
 
 > I think research culture is evolving for the better
 
@@ -145,9 +157,269 @@ df_plot <- compute_pct_by_country(data = df, country = q2, col = q10)
 plot_pct_by_country(data = df_plot, country = q2, col = q10, pct = pct, n = n)
 ```
 
-
-
 ```{r}
+#| fig-width: 10
+#| fig-height: 6
+#| out-width: "100%"
+df_long <- df |> 
+  # Step 1: Split comma-separated q11 into multiple rows
+  separate_rows(q11, sep = ",") |> 
+  # Step 2: Trim any extra whitespace
+  mutate(q11 = str_trim(q11)) |> 
+  drop_na(q11)
 
+df_plot <- compute_pct_by_country(data = df_long, country = q2, col = q11)
+
+plot_pct_by_country(data = df_plot, country = q2, col = q11, pct = pct, n = n)
 ```
 
+::: {.callout-note collapse="true" appearance="simple"}
+
+## The "Others" that weren't be grouped
+
+```{r}
+df |> 
+  filter(q11_text_cleaned == "Others") |> 
+  pull(q11_8_text)
+```
+
+:::
+
+## Main questions by gender
+
+Here I group "Non-binary/third gender", "Prefer not to say" and "Bayot" into "Others".
+
+```{r}
+#| fig-width: 3
+#| fig-height: 1.5
+df <- df |> 
+  mutate(
+    gender = q1,
+    gender = if_else(gender %in% c("Non-binary / third gender", "Prefer not to say", "Bayot"), "Others", gender)
+  )
+
+df_plot <- df |> 
+  group_by(gender) |>
+  count() |> 
+  mutate(pct = 100 * n / nrow(df))
+
+ggplot(df_plot, aes(x = fct_rev(gender), y = pct)) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = paste0(n, " (", round(pct, 0), "%)")), hjust = -0.1, size = 3) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)) +
+    coord_flip() +
+    labs(x = NULL, y = "Percentage") +
+    theme_light()
+```
+
+> I think research culture is evolving for the better
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = gender, col = q9_1)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q9_1, pct = pct, n = n)
+```
+
+> There is equity in decision-making and giving credit for research within my organisation
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = gender, col = q9_2)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q9_2, pct = pct, n = n)
+```
+
+> International research funders and/or foreign researchers dominate the research priorities of my country
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = gender, col = q9_3)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q9_3, pct = pct, n = n)
+```
+
+> I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = gender, col = q9_4)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q9_4, pct = pct, n = n)
+```
+
+> At my organization, there is collaboration rather than competition between researchers
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = gender, col = q9_5)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q9_5, pct = pct, n = n)
+```
+
+> Do you think career progression (for instance, to senior positions) is harder for certain groups of researchers, e.g., women, early career researchers?
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = gender, col = q10)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q10, pct = pct, n = n)
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_long <- df |> 
+  # Step 1: Split comma-separated q11 into multiple rows
+  separate_rows(q11, sep = ",") |> 
+  # Step 2: Trim any extra whitespace
+  mutate(q11 = str_trim(q11)) |> 
+  drop_na(q11)
+
+df_plot <- compute_pct_by_country(data = df_long, country = gender, col = q11)
+
+plot_pct_by_country(data = df_plot, country = gender, col = q11, pct = pct, n = n)
+```
+
+## Main questions by career stage
+
+I grouped:
+
+- "Student (BSc, BA, MSc, MA, MPH, MD, PhD)", "Research assistant", "Research fellow, post-doctoral fellow, or other research positions", "Assistant Professor" as "Early-career"
+- "Associate Professor", "Full Professor", "Dean or Head of Department" as "Senior"
+- The rest ("Lab technician", "Research administrator or manager", "Research doctor or nurse", "Lecturer (main job is teaching, no research)", "Other, please specify:") as "Support staff"
+
+```{r}
+df <- df |> 
+  mutate(
+    career_stage = case_when(
+      q7 %in% c("Student (BSc, BA, MSc, MA, MPH, MD, PhD)", "Research assistant", "Research fellow, post-doctoral fellow, or other research positions", "Assistant Professor") ~ "Early-career",
+      q7 %in% c("Associate Professor", "Full Professor", "Dean or Head of Department") ~ "Senior",
+      q7 %in% c("Lab technician", "Research administrator or manager", "Research doctor or nurse", "Lecturer (main job is teaching, no research)", "Other, please specify:") ~ "Support staff",
+    )
+  )
+```
+
+```{r}
+#| fig-width: 3
+#| fig-height: 1.5
+df_plot <- df |> 
+  group_by(career_stage) |>
+  count() |> 
+  mutate(pct = 100 * n / nrow(df))
+
+ggplot(df_plot, aes(x = fct_rev(career_stage), y = pct)) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = paste0(n, " (", round(pct, 0), "%)")), hjust = -0.1, size = 3) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20)) +
+    coord_flip() +
+    labs(x = NULL, y = "Percentage") +
+    theme_light()
+```
+
+By country
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = q2, col = career_stage)
+
+plot_pct_by_country(data = df_plot, country = q2, col = career_stage, pct = pct, n = n)
+```
+
+
+> I think research culture is evolving for the better
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q9_1)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q9_1, pct = pct, n = n)
+```
+
+> There is equity in decision-making and giving credit for research within my organisation
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q9_2)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q9_2, pct = pct, n = n)
+```
+
+> International research funders and/or foreign researchers dominate the research priorities of my country
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q9_3)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q9_3, pct = pct, n = n)
+```
+
+> I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q9_4)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q9_4, pct = pct, n = n)
+```
+
+> At my organization, there is collaboration rather than competition between researchers
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q9_5)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q9_5, pct = pct, n = n)
+```
+
+> Do you think career progression (for instance, to senior positions) is harder for certain groups of researchers, e.g., women, early career researchers?
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q10)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q10, pct = pct, n = n)
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+#| out-width: "100%"
+df_long <- df |> 
+  # Step 1: Split comma-separated q11 into multiple rows
+  separate_rows(q11, sep = ",") |> 
+  # Step 2: Trim any extra whitespace
+  mutate(q11 = str_trim(q11)) |> 
+  drop_na(q11)
+
+df_plot <- compute_pct_by_country(data = df_long, country = career_stage, col = q11)
+
+plot_pct_by_country(data = df_plot, country = career_stage, col = q11, pct = pct, n = n)
+```
