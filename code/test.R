@@ -3,3 +3,8 @@ df |>
 
 df |> 
   filter(grepl("manag|officer", q7_12_text, ignore.case = T)) |> pull(q7_12_text)
+
+tmp <- df_long |> 
+  filter(q11 == "Local staff")
+
+table(tmp$q5_category)
