@@ -7,6 +7,52 @@ execute:
   message: false
 ---
 
+::: {.callout-note}
+
+## Key findings
+
+**Country comparisons :**
+
+- Vietnam had the most positive overall responses.
+- Cambodia, Lao PDR, Thailand, and Vietnam showed stronger agreement on equity and collaboration.
+
+**Gender differences:**
+
+- Most female and male respondents reported positive research culture experiences.
+- Respondents identifying as "Other" gender reported less positive experiences and were more divided in their responses.
+
+**Career stage:**
+
+- Senior researchers experienced more positive research culture and were less concerned about foreign influence.
+- Early-career researchers and support staff were more likely to perceive external dominance in research priorities.
+- Confidence in improving research culture was highest among seniors.
+
+**Disciplinary trends:**
+
+- Biomedicine, microbiology, psychology, and public/global health reported more positive views and greater concern about foreign influence.
+- STEM and social sciences were less positive, particularly about performance assessment and collaboration.
+
+**Collaboration vs competition:**
+
+- Most respondents agreed collaboration outweighs competition, especially support staff.
+- Private and industry sectors experienced the lowest internal collaboration.
+
+**Career progression:**
+
+- Non-PhD holders and early-career researchers were consistently identified as facing the most barriers.
+- Women, ethnic minorities, and people with disabilities were also noted, though less frequently.
+- Senior staff think non-PhD holders, early-career researchers, and women face the most challenges.
+- Respondents tended to identify their own group as most disadvantaged, indicating some bias.
+
+**UK-funded institutions:**
+
+- Generally viewed more positively than other sectors within each country.
+- In Lao PDR, UK-funded staff were less satisfied than government staff but more than private/industry.
+- In Thailand and Vietnam, UK-funded staff were more satisfied than both government and private/industry sectors.
+- Respondents in UK-funded Thailand and Vietnam reported that local staff are harder to progress in career progression.
+
+:::
+
 ```{r}
 library(tidyverse)
 library(gtsummary)
@@ -114,6 +160,8 @@ plot_pct_by_country(data = df_plot, country = country, col = q9_1, pct = pct, n 
 
 > There is equity in decision-making and giving credit for research within my organisation
 
+Overall, most countries leaned towards somewhat or strongly agree. However, 27% of respondents in Malaysia somewhat disagreed, and 27% in Indonesia gave neutral responses. The responses from Brunei, Myanmar, and Timor-Leste were quite diverse.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 4
@@ -124,6 +172,8 @@ plot_pct_by_country(data = df_plot, country = country, col = q9_2, pct = pct, n 
 ```
 
 > International research funders and/or foreign researchers dominate the research priorities of my country
+
+There are two distinct groups: In Cambodia, Lao PDR, Thailand, and Vietnam, the majority of respondents (>50%) agreed with the statement. In contrast, respondents from Indonesia, Malaysia, the Philippines, Singapore, Brunei, Myanmar, and Timor-Leste mostly responded with neutral or disagreement.
 
 ```{r}
 #| fig-width: 7
@@ -136,6 +186,8 @@ plot_pct_by_country(data = df_plot, country = country, col = q9_3, pct = pct, n 
 
 > I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
 
+The same pattern appeared as in the previous question. In Cambodia, Lao PDR, Thailand, and Vietnam, most respondents (>50%) agreed with the statement. Meanwhile, those from Indonesia, Malaysia, the Philippines, Singapore, Brunei, Myanmar, and Timor-Leste mostly gave neutral or disagree responses.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 4
@@ -146,6 +198,8 @@ plot_pct_by_country(data = df_plot, country = country, col = q9_4, pct = pct, n 
 ```
 
 > At my organization, there is collaboration rather than competition between researchers
+
+The majority of respondents agreed in all countries, though the percentage of agreement was lower (ranging from 50-60%) in Malaysia, Singapore, Brunei, Myanmar, and Timor-Leste.
 
 ```{r}
 #| fig-width: 7
@@ -158,6 +212,8 @@ plot_pct_by_country(data = df_plot, country = country, col = q9_5, pct = pct, n 
 
 > Do you think career progression (for instance, to senior positions) is harder for certain groups of researchers, e.g., women, early career researchers?
 
+The majority of respondents in all countries agreed with the statement.
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 2.5
@@ -166,6 +222,8 @@ df_plot <- compute_pct_by_country(data = df, country = country, col = q10)
 
 plot_pct_by_country(data = df_plot, country = country, col = q10, pct = pct, n = n)
 ```
+
+Non-PhD holders and early-career researchers were most commonly identified across all countries, followed by women, ethnic minorities, and people with disabilities.
 
 ```{r}
 #| fig-width: 10
@@ -201,7 +259,20 @@ df_plot <- compute_pct_by_country(data = df, country = country, col = gender)
 plot_pct_by_country(data = df_plot, country = country, col = gender, pct = pct, n = n)
 ```
 
+Overall, respondents identifying as "Others" gender reported less positive experiences with research culture. This was especially evident in responses to *"I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant"* and *"At my organization, there is collaboration rather than competition between researchers"*.
+
+```{r}
+tbl_summary(
+  df,
+  by = gender,
+  include = q9_1_int:q9_5_int,
+  type = everything() ~ "continuous"
+)
+```
+
 > I think research culture is evolving for the better
+
+Nearly 80% of both female and male respondents agreed with the statement. In contrast, respondents identifying as "Others" gender were split - about half agreed, half disagreed.
 
 ```{r}
 #| fig-width: 7
@@ -214,6 +285,8 @@ plot_pct_by_country(data = df_plot, country = gender, col = q9_1, pct = pct, n =
 
 > There is equity in decision-making and giving credit for research within my organisation
 
+A similar pattern was observed: female and male respondents showed clear agreement, while those identifying as “Other” gender were more divided in their responses.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 2
@@ -224,6 +297,8 @@ plot_pct_by_country(data = df_plot, country = gender, col = q9_2, pct = pct, n =
 ```
 
 > International research funders and/or foreign researchers dominate the research priorities of my country
+
+Responses from female and male participants were diverse, showing no clear pattern. However, 47% of respondents identifying as "Other" gender strongly agreed that international funders or researchers dominate their country's research priorities.
 
 ```{r}
 #| fig-width: 7
@@ -236,6 +311,8 @@ plot_pct_by_country(data = df_plot, country = gender, col = q9_3, pct = pct, n =
 
 > I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
 
+The majority of both female and male respondents agreed, with males showing stronger agreement than females. In contrast, respondents identifying as "Other" gender were less likely to agree.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 2
@@ -246,6 +323,8 @@ plot_pct_by_country(data = df_plot, country = gender, col = q9_4, pct = pct, n =
 ```
 
 > At my organization, there is collaboration rather than competition between researchers
+
+Agreement was high among both female and male respondents. However, those identifying as "Other" gender showed noticeably lower levels of agreement.
 
 ```{r}
 #| fig-width: 7
@@ -258,6 +337,8 @@ plot_pct_by_country(data = df_plot, country = gender, col = q9_5, pct = pct, n =
 
 > Do you think career progression (for instance, to senior positions) is harder for certain groups of researchers, e.g., women, early career researchers?
 
+Overall respondents agreed with the statement. Agreement was highest among those identifying as "Other" gender (76%), followed by female (70%) and male (61%) respondents.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 1.5
@@ -266,6 +347,8 @@ df_plot <- compute_pct_by_country(data = df, country = gender, col = q10)
 
 plot_pct_by_country(data = df_plot, country = gender, col = q10, pct = pct, n = n)
 ```
+
+Across all genders, non-PhD holders and early-career researchers were most commonly identified as facing career progression challenges, followed by women, ethnic minorities, and people with disabilities. Some bias was observed: women were more likely to identify themselves (19%) rather than LGBTQ+ (4%) as disadvantaged, while respondents identifying as "Other" gender were more likely to select themselves (15%) over women (6%).
 
 ```{r}
 #| fig-width: 7
@@ -324,6 +407,8 @@ df <- df |>
   )
 ```
 
+Early-career researchers made up around 40–50% of respondents across most countries, with a higher proportion in Singapore (75%) and a lower one in Malaysia (18%).
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
@@ -333,7 +418,20 @@ df_plot <- compute_pct_by_country(data = df, country = country, col = career_sta
 plot_pct_by_country(data = df_plot, country = country, col = career_stage, pct = pct, n = n)
 ```
 
+Overall, senior researchers reported more positive experiences with research culture and were less likely to believe that international funders or foreign researchers dominate national research priorities. In contrast, more early-career researchers and support staff felt that such external actors could dominate.
+
+```{r}
+tbl_summary(
+  df,
+  by = career_stage,
+  include = q9_1_int:q9_5_int,
+  type = everything() ~ "continuous"
+)
+```
+
 > I think research culture is evolving for the better
+
+Senior researchers were confident that research culture is improving, with 54% strongly agreeing. In contrast, only 26% of early-career researchers felt the same.
 
 ```{r}
 #| fig-width: 8
@@ -346,6 +444,8 @@ plot_pct_by_country(data = df_plot, country = career_stage, col = q9_1, pct = pc
 
 > There is equity in decision-making and giving credit for research within my organisation
 
+The majority of respondents agreed with this statement across all career stages.
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 2
@@ -356,6 +456,8 @@ plot_pct_by_country(data = df_plot, country = career_stage, col = q9_2, pct = pc
 ```
 
 > International research funders and/or foreign researchers dominate the research priorities of my country
+
+Senior researchers were less concerned about external influence on national research priorities (44% disagreed), while early-career researchers and support staff were more likely to perceive dominance by international funders or foreign researchers.
 
 ```{r}
 #| fig-width: 8
@@ -368,6 +470,8 @@ plot_pct_by_country(data = df_plot, country = career_stage, col = q9_3, pct = pc
 
 > I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
 
+Across all career stages, most respondents either agreed or felt neutral about this statement.
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 2
@@ -378,6 +482,8 @@ plot_pct_by_country(data = df_plot, country = career_stage, col = q9_4, pct = pc
 ```
 
 > At my organization, there is collaboration rather than competition between researchers
+
+Support staff showed the strongest agreement with this statement (46% strongly agree), followed by early-career researchers (41%) and senior researchers (34%).
 
 ```{r}
 #| fig-width: 8
@@ -399,6 +505,8 @@ df_plot <- compute_pct_by_country(data = df, country = career_stage, col = q10)
 plot_pct_by_country(data = df_plot, country = career_stage, col = q10, pct = pct, n = n)
 ```
 
+There could be some bias, as early-career and support staff often selected their own group as disadvantaged. However, senior respondents also identified non-PhD holders (22%), early-career researchers (17%), and women (17%) as facing the most difficulty in career progression.
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 2.5
@@ -417,6 +525,8 @@ plot_pct_by_country(data = df_plot, country = career_stage, col = q11, pct = pct
 
 ## Comparison by scientific discipline
 
+Overall, respondents in basic science fields (STEM and social sciences) and psychology reported less positive experiences with research culture, particularly regarding research performance assessment and internal collaboration. They were also less likely to believe that international funders or foreign researchers dominate national research priorities. In contrast, respondents in biomedicine, microbiology, and public/global health expressed greater concern about external influence on national research agendas.
+
 ```{r}
 df_long <- df |>
   separate_rows(q8, sep = ";") |>
@@ -434,6 +544,8 @@ tbl_summary(
 
 > I think research culture is evolving for the better
 
+High levels of agreement were observed across all disciplines. Neutral responses were slightly higher in respondents working in psychology, behavioural science (18%)
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
@@ -444,6 +556,8 @@ plot_pct_by_country(data = df_plot, country = q8, col = q9_1, pct = pct, n = n)
 ```
 
 > There is equity in decision-making and giving credit for research within my organisation
+
+High levels of agreement were observed across all disciplines. Again, neutral responses were more common in psychology, behavioural science.
 
 ```{r}
 #| fig-width: 8
@@ -456,6 +570,8 @@ plot_pct_by_country(data = df_plot, country = q8, col = q9_2, pct = pct, n = n)
 
 > International research funders and/or foreign researchers dominate the research priorities of my country
 
+Around 50% of respondents in biomedicine, microbiology, and public health agreed with the statement. In contrast, those in psychology, social science, and STEM were more likely to respond with disagreement or neutrality.
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
@@ -467,6 +583,8 @@ plot_pct_by_country(data = df_plot, country = q8, col = q9_3, pct = pct, n = n)
 
 > I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
 
+Respondents in biomedicine, microbiology, psychology, and public health showed higher levels of agreement. In contrast, those in social science and STEM were less likely to agree.
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
@@ -477,6 +595,8 @@ plot_pct_by_country(data = df_plot, country = q8, col = q9_4, pct = pct, n = n)
 ```
 
 > At my organization, there is collaboration rather than competition between researchers
+
+Overall, most respondents agreed with the statement, though agreement was slightly lower among those in social science.
 
 ```{r}
 #| fig-width: 8
@@ -497,6 +617,8 @@ df_plot <- compute_pct_by_country(data = df_long, country = q8, col = q10)
 
 plot_pct_by_country(data = df_plot, country = q8, col = q10, pct = pct, n = n)
 ```
+
+Non-PhD holders and early-career researchers were consistently identified as vulnerable groups across all disciplines. In microbiology, psychology, and social science, women were most commonly seen as amongst the most disadvantaged group.
 
 ```{r}
 #| fig-width: 9
@@ -545,6 +667,8 @@ df_uk |>
 
 > I think research culture is evolving for the better
 
+Most respondents agreed, with little variation across funding sources.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 4
@@ -553,6 +677,8 @@ bar_group_country(data = df_uk, group = q5_category, country = country, feat = q
 ```
 
 > There is equity in decision-making and giving credit for research within my organisation
+
+Most respondents agreed, with little variation across funding sources.
 
 ```{r}
 #| fig-width: 7
@@ -563,6 +689,8 @@ bar_group_country(data = df_uk, group = q5_category, country = country, feat = q
 
 > International research funders and/or foreign researchers dominate the research priorities of my country
 
+In Lao PDR, UK-funded staff were less likely to agree. In contrast, most UK-funded staff in Thailand and Vietnam agreed, with levels comparable to those in the government-funded sector. The private and industry sector were quite similar to government-funded.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 4
@@ -572,6 +700,8 @@ bar_group_country(data = df_uk, group = q5_category, country = country, feat = q
 
 > I am satisfied with the way research performance is assessed my organization e.g., academic publications, or obtaining a research grant
 
+In Lao PDR, UK-funded staff were less satisfied than those in the government sector but more satisfied than those in the private and industry sectors. In Thailand and Vietnam, UK-funded staff showed higher agreement than both government and private/industry counterparts.
+
 ```{r}
 #| fig-width: 7
 #| fig-height: 4
@@ -580,6 +710,8 @@ bar_group_country(data = df_uk, group = q5_category, country = country, feat = q
 ```
 
 > At my organization, there is collaboration rather than competition between researchers
+
+Respondents in the private and industry sectors reported the lowest levels of internal collaboration. UK-funded staff in Lao PDR and Thailand showed higher agreement, while in Vietnam, their responses were similar to those in the government-funded sector.
 
 ```{r}
 #| fig-width: 7
