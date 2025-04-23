@@ -8,6 +8,7 @@ execute:
 
 ```{r}
 library(tidyverse)
+library(gtsummary)
 source("code/viz.R")
 
 df <- readRDS("data/data_cleaned.rds")
@@ -57,17 +58,25 @@ df_plot <- compute_pct_by_country(data = df, country = q2, col = q7)
 plot_pct_by_country(data = df_plot, country = q2, col = q7, pct = pct, n = n)
 ```
 
-::: {.callout-note collapse="true" appearance="simple"}
+```{r}
+tmp <- df |> 
+  tbl_summary(
+    include = c(q7),
+    label = list(
+      q7 ~ "Position at work"
+    ),
+    digits = c(all_categorical() ~ c(0, 1), all_continuous() ~ 1)
+  )
+tmp
+```
 
-## The "Others" that weren't be grouped
+The "Others" that weren't be grouped
 
 ```{r}
 df |> 
   filter(q7 == "Other, please specify:") |> 
   pull(q7_12_text)
 ```
-
-:::
 
 ## Main questions by country
 

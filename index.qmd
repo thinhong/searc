@@ -1,6 +1,7 @@
 ---
 title: "Report"
 format: html
+embed-resources: true
 execute: 
   echo: false
   warning: false

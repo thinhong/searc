@@ -191,18 +191,535 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="cell">
+<div class="cell-output-display">
+<div id="jwshlciydp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jwshlciydp table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jwshlciydp thead, #jwshlciydp tbody, #jwshlciydp tfoot, #jwshlciydp tr, #jwshlciydp td, #jwshlciydp th {
+  border-style: none;
+}
+
+#jwshlciydp p {
+  margin: 0;
+  padding: 0;
+}
+
+#jwshlciydp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jwshlciydp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jwshlciydp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jwshlciydp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jwshlciydp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jwshlciydp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jwshlciydp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jwshlciydp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jwshlciydp .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jwshlciydp .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jwshlciydp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jwshlciydp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jwshlciydp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jwshlciydp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jwshlciydp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jwshlciydp .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jwshlciydp .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jwshlciydp .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jwshlciydp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jwshlciydp .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jwshlciydp .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jwshlciydp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jwshlciydp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jwshlciydp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jwshlciydp .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jwshlciydp .gt_left {
+  text-align: left;
+}
+
+#jwshlciydp .gt_center {
+  text-align: center;
+}
+
+#jwshlciydp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jwshlciydp .gt_font_normal {
+  font-weight: normal;
+}
+
+#jwshlciydp .gt_font_bold {
+  font-weight: bold;
+}
+
+#jwshlciydp .gt_font_italic {
+  font-style: italic;
+}
+
+#jwshlciydp .gt_super {
+  font-size: 65%;
+}
+
+#jwshlciydp .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jwshlciydp .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jwshlciydp .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jwshlciydp .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jwshlciydp .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jwshlciydp .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jwshlciydp .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#jwshlciydp .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jwshlciydp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>N = 646</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Position at work</td>
+<td class="gt_row gt_center" headers="stat_0"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Student (BSc, BA, MSc, MA, MPH, MD, PhD)</td>
+<td class="gt_row gt_center" headers="stat_0">59 (9.1%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Research assistant</td>
+<td class="gt_row gt_center" headers="stat_0">86 (13.3%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Research fellow, post-doctoral fellow, or other research positions</td>
+<td class="gt_row gt_center" headers="stat_0">124 (19.2%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Lab technician</td>
+<td class="gt_row gt_center" headers="stat_0">24 (3.7%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Research administrator or manager</td>
+<td class="gt_row gt_center" headers="stat_0">66 (10.2%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Research doctor or nurse</td>
+<td class="gt_row gt_center" headers="stat_0">53 (8.2%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Lecturer (main job is teaching, no research)</td>
+<td class="gt_row gt_center" headers="stat_0">44 (6.8%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Assistant Professor</td>
+<td class="gt_row gt_center" headers="stat_0">49 (7.6%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Associate Professor</td>
+<td class="gt_row gt_center" headers="stat_0">45 (7.0%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Full Professor</td>
+<td class="gt_row gt_center" headers="stat_0">26 (4.0%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Dean or Head of Department</td>
+<td class="gt_row gt_center" headers="stat_0">22 (3.4%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Other, please specify:</td>
+<td class="gt_row gt_center" headers="stat_0">48 (7.4%)</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="even">
+<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> n (%)</td>
+</tr>
+</tfoot>
+
+</table>
+
 </div>
-<div class="callout-title-container flex-fill">
-The “Others” that weren’t be grouped
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
+<p>The “Others” that weren’t be grouped</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Administrative"                                                                 
@@ -249,10 +766,10 @@ The “Others” that weren’t be grouped
 [42] "Dosen penuh  dan peniliti penuh"                                                
 [43] "Administrator"                                                                  
 [44] "operations team"                                                                
-[45] "Senior High Instructor"                                                         </code></pre>
-</div>
-</div>
-</div>
+[45] "Senior High Instructor"                                                         
+[46] "COO"                                                                            
+[47] "Business owner"                                                                 
+[48] "Instructor with research function"                                              </code></pre>
 </div>
 </div>
 </section>
@@ -265,7 +782,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -277,7 +794,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -289,7 +806,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -301,7 +818,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -313,7 +830,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -326,7 +843,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -335,13 +852,13 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -350,7 +867,7 @@ The “Others” that weren’t be grouped
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -377,7 +894,8 @@ The “Others” that weren’t be grouped
 [21] "Generations coming after boomers"                                                                                                                            
 [22] "PhD holder has less opportunities as the job market is not available for that level of education. Only few job spaces are available in Asia for PhD holders."
 [23] "Area studies"                                                                                                                                                
-[24] "Religious minorities, people from lower SES"                                                                                                                 </code></pre>
+[24] "Religious minorities, people from lower SES"                                                                                                                 
+[25] "Researchers not doing \"hot topics\""                                                                                                                        </code></pre>
 </div>
 </div>
 </div>
@@ -391,7 +909,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="288"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="288"></p>
 </figure>
 </div>
 </div>
@@ -403,7 +921,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -415,7 +933,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -427,7 +945,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -439,7 +957,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -451,7 +969,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -463,7 +981,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -472,7 +990,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -490,7 +1008,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="288"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="288"></p>
 </figure>
 </div>
 </div>
@@ -500,7 +1018,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -512,7 +1030,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -524,7 +1042,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -536,7 +1054,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -548,7 +1066,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -560,7 +1078,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -572,7 +1090,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -581,7 +1099,7 @@ The “Others” that weren’t be grouped
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="draft_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
