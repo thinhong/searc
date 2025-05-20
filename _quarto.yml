@@ -8,6 +8,7 @@ website:
     left:
       - index.qmd
       - draft.qmd
+      - detailed-questions.qmd
 
 format:
   html:

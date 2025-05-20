@@ -1,0 +1,546 @@
+---
+title: "Detailed questions"
+editor: visual
+execute: 
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+library(tidyverse)
+library(gtsummary)
+library(MASS)
+library(broom)
+library(rlang)
+source("code/viz.R")
+
+df <- readRDS("data/data_cleaned.rds")
+
+df <- df |> 
+  filter(!is.na(q13_1))
+```
+
+```{r}
+item_labels <- list(
+  # ── INDIVIDUAL LEVEL ──────────────────────────────────────────────
+  q13_1_int_cleaned = 'Motivators',
+  q13_2_int_cleaned = 'Values & Behaviours 1',
+  q13_3_int_cleaned = 'Values & Behaviours 2',
+  q13_4_int_cleaned = 'Autonomy',
+  q13_6_int_cleaned = 'Mental health',
+  q13_5_int_cleaned = 'Knowledge–do gap 1',
+  q13_7_int_cleaned = 'Knowledge–do gap 2',
+  q13_8_int_cleaned = 'Knowledge–do gap 3',
+  q13_9_int_cleaned = 'Knowledge–do gap 4',
+
+  # ── INTERPERSONAL LEVEL ───────────────────────────────────────────
+  q14_1_int_cleaned = 'Relationships amongst 1',
+  q14_2_int_cleaned = 'Relationships amongst 2',
+  q14_3_int_cleaned = 'Relationships between 1',
+  q14_4_int_cleaned = 'Relationships between 2',
+
+  # ── INSTITUTIONAL LEVEL ───────────────────────────────────────────
+  q15_1_int_cleaned = 'Accountability 1',
+  q15_2_int_cleaned = 'Accountability 2',
+  q15_3_int_cleaned = 'Accountability 3',
+  q15_4_int_cleaned = 'Policies & practice 1',
+  q15_5_int_cleaned = 'Policies & practice 2',
+  q15_6_int_cleaned = 'Policies & practice 3',
+  q15_7_int_cleaned = 'Policies & practice 4',
+  q15_8_int_cleaned = 'Policies & practice 5',
+  q15_9_int_cleaned  = 'Resources 1',
+  q15_10_int_cleaned = 'Resources 2',
+  q15_11_int_cleaned = 'Resources 3',
+  q15_12_int_cleaned = 'Pressure',
+
+  # ── INTER-INSTITUTIONAL LEVEL ─────────────────────────────────────
+  q16_1_int_cleaned = 'Relationships between orgs 1',
+  q16_2_int_cleaned = 'Relationships between orgs 2',
+  q16_3_int_cleaned = 'Power 1',
+  q16_4_int_cleaned = 'Power 2'
+)
+
+# df |>
+#   tbl_summary(
+#     label = item_labels,
+#     by = country,
+#     include = q13_1_int_cleaned:q16_4_int_cleaned,
+#     type = everything() ~ "continuous",
+#     missing = "no"
+#   )
+
+meta <- tribble(
+  ~item,                ~label,                      ~level,
+  # ── INDIVIDUAL ────────────────────────────────────────────────────
+  "q13_1_int_cleaned",  "Motivators",                "Individual",
+  "q13_2_int_cleaned",  "Values & Behaviours 1",     "Individual",
+  "q13_3_int_cleaned",  "Values & Behaviours 2",     "Individual",
+  "q13_4_int_cleaned",  "Autonomy",                  "Individual",
+  "q13_6_int_cleaned",  "Mental health",             "Individual",
+  "q13_5_int_cleaned",  "Knowledge–do gap 1",        "Individual",
+  "q13_7_int_cleaned",  "Knowledge–do gap 2",        "Individual",
+  "q13_8_int_cleaned",  "Knowledge–do gap 3",        "Individual",
+  "q13_9_int_cleaned",  "Knowledge–do gap 4",        "Individual",
+  # ── INTERPERSONAL ────────────────────────────────────────────────
+  "q14_1_int_cleaned",  "R'ships amongst 1",  "Interpersonal",
+  "q14_2_int_cleaned",  "R'ships amongst 2",  "Interpersonal",
+  "q14_3_int_cleaned",  "R'ships between 1",  "Interpersonal",
+  "q14_4_int_cleaned",  "R'ships between 2",  "Interpersonal",
+  # ── INSTITUTIONAL ────────────────────────────────────────────────
+  "q15_1_int_cleaned",  "Accountability 1",          "Institutional",
+  "q15_2_int_cleaned",  "Accountability 2",          "Institutional",
+  "q15_3_int_cleaned",  "Accountability 3",          "Institutional",
+  "q15_4_int_cleaned",  "Policies & practice 1",     "Institutional",
+  "q15_5_int_cleaned",  "Policies & practice 2",     "Institutional",
+  "q15_6_int_cleaned",  "Policies & practice 3",     "Institutional",
+  "q15_7_int_cleaned",  "Policies & practice 4",     "Institutional",
+  "q15_8_int_cleaned",  "Policies & practice 5",     "Institutional",
+  "q15_9_int_cleaned",  "Resources 1",               "Institutional",
+  "q15_10_int_cleaned", "Resources 2",               "Institutional",
+  "q15_11_int_cleaned", "Resources 3",               "Institutional",
+  "q15_12_int_cleaned", "Pressure",                  "Institutional",
+  # ── INTER-INSTITUTIONAL ──────────────────────────────────────────
+  "q16_1_int_cleaned",  "R'ships between orgs 1","Inter-institutional",
+  "q16_2_int_cleaned",  "R'ships between orgs 2","Inter-institutional",
+  "q16_3_int_cleaned",  "Power 1",                    "Inter-institutional",
+  "q16_4_int_cleaned",  "Power 2",                    "Inter-institutional"
+)
+
+summary_by_group <- function(data, meta, group_var = country) {
+  
+  # capture the grouping variable
+  grp <- enquo(group_var)
+  
+  # 1. reshape to long ------------------------------------------------
+  long_df <- data %>% 
+    dplyr::select(!!grp, all_of(meta$item)) %>% 
+    pivot_longer(-!!grp, names_to = 'item', values_to = 'score') %>% 
+    filter(!is.na(score)) %>% 
+    left_join(meta, by = 'item') %>% 
+    mutate(
+      label = factor(label, levels = meta$label)   # preserve facet order
+    )
+  
+  # 2. summary statistics --------------------------------------------
+  long_df %>% 
+    group_by(level, label, !!grp) %>% 
+    summarise(
+      med = median(score, na.rm = TRUE),
+      q1  = quantile(score, 0.25, na.rm = TRUE),
+      q3  = quantile(score, 0.75, na.rm = TRUE),
+      .groups = 'drop'
+    )
+}
+
+plot_level_median <- function(data,
+                              lvl,
+                              group_var = country,   # any column in `data`
+                              palette   = "Paired") {
+  
+  grp <- enquo(group_var)            # capture the grouping column
+  
+  ggplot(
+    filter(data, level == lvl),
+    aes(
+      y      = fct_rev(as.factor(!!grp)),   # reverse order for y-axis
+      x      = med,
+      xmin   = q1,
+      xmax   = q3,
+      colour = fct_rev(as.factor(!!grp))    # same variable drives colour
+    )
+  ) +
+    geom_pointrange(size = .7, fatten = 2) +
+    facet_wrap(~ label, ncol = 3) +
+    scale_x_continuous(breaks = 1:5, limits = c(1, 5)) +
+    scale_colour_brewer(palette = palette) +
+    labs(
+      title = paste(lvl, "level"),
+      x     = NULL,
+      y     = NULL
+    ) +
+    theme_bw() +
+    theme(
+      axis.text.y     = element_text(hjust = 1),
+      plot.title      = element_text(hjust = 0, face = "bold"),
+      legend.position = "none"
+    )
+}
+```
+
+```{r}
+# meta <- tribble(
+#   ~item,                ~label,                      ~level,
+#   # INDIVIDUAL
+#   "q13_1_cleaned",  "Motivators",                "Individual",
+#   "q13_2_cleaned",  "Values & Behaviours 1",     "Individual",
+#   "q13_3_cleaned",  "Values & Behaviours 2",     "Individual",
+#   "q13_4_cleaned",  "Autonomy",                  "Individual",
+#   "q13_6_cleaned",  "Mental health",             "Individual",
+#   "q13_5_cleaned",  "Knowledge–do gap 1",        "Individual",
+#   "q13_7_cleaned",  "Knowledge–do gap 2",        "Individual",
+#   "q13_8_cleaned",  "Knowledge–do gap 3",        "Individual",
+#   "q13_9_cleaned",  "Knowledge–do gap 4",        "Individual",
+#   # INTERPERSONAL
+#   "q14_1_cleaned",  "Relationships amongst 1",  "Interpersonal",
+#   "q14_2_cleaned",  "Relationships amongst 2",  "Interpersonal",
+#   "q14_3_cleaned",  "Relationships between 1",  "Interpersonal",
+#   "q14_4_cleaned",  "Relationships between 2",  "Interpersonal",
+#   # INSTITUTIONAL
+#   "q15_1_cleaned",  "Accountability 1",          "Institutional",
+#   "q15_2_cleaned",  "Accountability 2",          "Institutional",
+#   "q15_3_cleaned",  "Accountability 3",          "Institutional",
+#   "q15_4_cleaned",  "Policies & practice 1",     "Institutional",
+#   "q15_5_cleaned",  "Policies & practice 2",     "Institutional",
+#   "q15_6_cleaned",  "Policies & practice 3",     "Institutional",
+#   "q15_7_cleaned",  "Policies & practice 4",     "Institutional",
+#   "q15_8_cleaned",  "Policies & practice 5",     "Institutional",
+#   "q15_9_cleaned",  "Resources 1",               "Institutional",
+#   "q15_10_cleaned", "Resources 2",               "Institutional",
+#   "q15_11_cleaned", "Resources 3",               "Institutional",
+#   "q15_12_cleaned", "Pressure",                  "Institutional",
+#   # INTER-INSTITUTIONAL
+#   "q16_1_cleaned",  "Relationships between orgs 1","Inter-institutional",
+#   "q16_2_cleaned",  "Relationships between orgs 2","Inter-institutional",
+#   "q16_3_cleaned",  "Power 1",                    "Inter-institutional",
+#   "q16_4_cleaned",  "Power 2",                    "Inter-institutional"
+# )
+
+# ────────────────────────────────────────────────────────────────────
+# 1.  Function
+# ────────────────────────────────────────────────────────────────────
+or_table_by_level <- function(data,
+                              level = c("Individual",
+                                        "Interpersonal",
+                                        "Institutional",
+                                        "Inter-institutional"),
+                              predictor   = country,
+                              layout      = c("stack", "wide"),
+                              digits_p    = 3) {
+  
+  level  <- match.arg(level)
+  layout <- match.arg(layout)
+  
+  # ----- which items belong to this level? -------------------------
+  sub_meta <- filter(meta, level == !!level)
+  outcomes <- sub_meta$item
+  labels   <- sub_meta$label
+  
+  # tidy-eval capture of predictor ---------------------------
+  pred_quo <- enquo(predictor)
+  
+  # ----- run one tbl_uvregression per item -------------------------
+  tbls <- map2(outcomes, labels, function(outcome_col, nice_lab) {
+    data %>%
+      tbl_uvregression(
+        include       = !!pred_quo,
+        y             = !!sym(outcome_col),
+        method        = polr,
+        exponentiate  = TRUE,
+        pvalue_fun    = ~ style_pvalue(.x, digits = digits_p)
+      ) %>%
+      add_global_p() %>%
+      # -------------------------------------------------------
+    # 1.  format OR and CI as character first
+    # 2.  bold if CI excludes 1
+    # -------------------------------------------------------
+    modify_table_body( ~ .x %>%
+                         mutate(
+                           est_chr = sprintf('%.2f', estimate),
+                           ci_chr  = sprintf('(%.2f, %.2f)', conf.low, conf.high),
+                           or_ci   = ifelse(
+                             conf.low > 1 | conf.high < 1,
+                             paste0(est_chr, ' ', ci_chr, '**'),
+                             paste0(est_chr, ' ', ci_chr)
+                           ),
+                           .keep = 'unused'          # drop the numeric cols from display
+                         )) %>%
+      modify_header(or_ci ~ '**OR (95% CI)**') %>%
+      modify_footnote(or_ci ~ NA)    # suppress auto footnote about bold markdown
+  })
+  
+  # ----- merge them into one table ---------------------------------
+  if (layout == "stack") {
+    big_tbl <- tbl_stack(
+      tbls,
+      group_header = labels
+    )
+  } else { # layout == "wide"
+    big_tbl <- tbl_merge(
+      tbls,
+      tab_spanner = labels
+    )
+  }
+  
+  big_tbl %>% 
+    modify_header(
+      label ~ "**Country**",
+      starts_with("estimate") ~ "**OR (95% CI)**",
+      starts_with("p.value")  ~ "**p**"
+    ) %>% 
+    bold_labels()
+}
+```
+
+## Comparison by country
+
+```{r}
+summary_df <- summary_by_group(
+  data      = df,
+  meta      = meta,       # your item–label–level table
+  group_var = country     # any column in df; defaults to country
+)
+```
+
+
+### Individual level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 4.5
+#| out-width: "100%"
+plot_level_median(summary_df, 'Individual')
+
+# ggsave("figs/median_plot.png", width = 5, height = 4.5, dpi = 300, bg = "white")
+```
+
+Overall, respondents from Southeast Asian countries felt less confident about being equally valued compared to their Western or high-income country research colleagues (Values & Behaviours 2). They also reported lower scores on questions regarding whether their mental and physical health needs are adequately supported (Mental health), whether they are fairly compensated for the time dedicated to research (Knowledge-do gap 3) and whether they have sufficient time in their daily schedules to conduct research (Knowledge-do gap 4). Respondents from Indonesia, Lao PDR, and Vietnam expressed low confidence in their English proficiency, which they felt could hinder their ability to conduct research (Knowledge-do gap 2). Malaysian respondents reported more negative perceptions across most questions.
+
+::: {.callout-note collapse="true"}
+
+## Questions
+
+-   Motivators: There is a sense at my organization that researchers enjoy their research activities
+-   Values & Behaviours 1: At my organization, researchers are held to high standards of ethical research practice
+-   Values & Behaviours 2: I feel equally valued compared to my Western or high-income country research colleagues
+-   Autonomy: At my organization, I am given the freedom to pursue research projects that align with my interests
+-   Mental health: At my organization, individual needs for mental or physical health support are well addressed
+-   Knowledge-do gap 1: I feel confident that I have the necessary knowledge, skills and experience to conduct research
+-   Knowledge-do gap 2: My proficiency level in the English language does not affect my experience in conducting research
+-   Knowledge-do gap 3: At my organization, I feel that I am well-compensated for the time that I allocate for research
+-   Knowledge-do gap 4: I have enough time in my day-to-day schedule to conduct research
+
+:::
+
+::: {.callout-note collapse="true"}
+
+## Ordinal logistic regression
+
+```{r}
+# or_table_by_level(df, level = "Individual", layout = "stack")
+```
+
+:::
+
+### Interpersonal level
+    
+```{r}
+#| fig-width: 5
+#| fig-height: 3.2
+#| out-width: "100%"
+plot_level_median(summary_df, 'Interpersonal')
+```
+
+::: {.callout-note collapse="true"}
+
+## Questions
+
+-   Relationships amongst 1: At my organization, there are sometimes tensions between researchers from different departments, disciplines or countries
+-   Relationships amongst 2: At my organization, my contribution is fairly recognized (by my seniors) in research outputs such as papers and conference presentations
+-   Relationships between 1: I feel that my supervisors are supportive by valuing my contributions to research and encouraging me to prioritize research
+-   Relationships between 2: I am satisfied with the level of research mentorship I currently receive
+
+:::
+
+### Institutional level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 5.5
+#| out-width: "100%"
+plot_level_median(summary_df, 'Institutional')
+```
+
+The majorities of countries are concerning about resources availability, such as there are not sufficient resources to conduct quality research at their organization (Resources 1), the organization may not has specific programs to help new academics (Resources 2), or not having enough support for new or junior researchers to get initial grants or publications (Resources 3).
+
+::: {.callout-note collapse="true"}
+
+## Questions
+
+-   Accountability 1: If I witness inappropriate research or professional conduct in my organization, I would feel confident about reporting it
+-   Accountability 2: I am confident that my organization can deal with cases of unethical research conduct fairly
+-   Accountability 3: I am confident that my organization can deal with bullying, harassment, including whistleblowing fairly
+-   Policies & practice 1: At my organization, there are systems and resources to support conducting research
+-   Policies & practice 2: My organization prioritizes other activities, such as teaching, over research
+-   Policies & practice 3: I agree with the level of importance given to publications in high-quality academic journals
+-   Policies & practice 4: At my organization, there are opportunities for professional development and growth in research
+-   Policies & practice 5: The research funding my organization receives reflects key priorities in my country/context
+-   Resources 1: There are sufficient resources to conduct quality research at my organization
+-   Resources 2: My organization has specific programs to help new academics get their research started and to learn academic skills such as academic writing, literature review, data analysis
+-   Resources 3: My organization has initiatives to support new or junior researchers to get initial grants or publications
+-   Pressure: I find it a challenge to keep up with the research expectations of my organization
+
+:::
+
+### Inter-institutional level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3.2
+#| out-width: "100%"
+plot_level_median(summary_df, 'Inter-institutional')
+```
+
+Countries did not report much concerns about questions in this area.
+
+::: {.callout-note collapse="true"}
+
+## Questions
+
+-   Relationship between organisations 1: I have had an overall positive experience collaborating on research projects with other institutions in Southeast Asia
+-   Relationship between organisations 2: I have had an overall positive experience collaboration on research projects with other institutions beyond Southeast Asia
+-   Power 1: In collaboration work, I feel that my organization and my team are considered equal partners to other organizations and teams
+-   Power 2: In collaborative work, my organization is fairly recognized in research outputs such as papers and conference presentations
+
+:::
+
+## Comparison by gender
+
+```{r}
+summary_df <- summary_by_group(
+  data      = df,
+  meta      = meta,
+  group_var = gender
+)
+```
+
+
+### Individual level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 2.6
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = gender, 'Individual')
+```
+
+Female and others gender 
+
+### Interpersonal level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 2
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = gender, 'Interpersonal')
+```
+
+### Institutional level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3.5
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = gender, 'Institutional')
+```
+
+### Inter-institutional level
+
+```{r}
+#| fig-width: 5
+#| fig-height: 2
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = gender, 'Inter-institutional')
+```
+
+## Comparison by career stage
+
+### Individual level
+
+### Interpersonal level
+
+### Institutional level
+
+### Inter-institutional level
+
+## Comparison by scientific discipline
+
+### Individual level
+
+### Interpersonal level
+
+### Institutional level
+
+### Inter-institutional level
+
+## Comparison by funding source (with a focus on UK-funded)
+
+### Individual level
+
+### Interpersonal level
+
+### Institutional level
+
+### Inter-institutional level
+
+
+## Multivariable analysis
+
+```{r}
+# ───────────────────────────────────────────────────
+#  multivar_polr()
+#  • data       – data frame
+#  • outcome    – bare name of the ordinal outcome
+#  • ...        – one or more predictor variables (bare names)
+#  • digits     – number of decimals to show (default 2)
+#  Returns a tibble with OR, 95 % CI, and a
+#  ‘signif’ flag when the CI excludes 1
+# ───────────────────────────────────────────────────
+multivar_polr <- function(data, outcome, ..., digits = 2) {
+  out_name   <- as_name(enquo(outcome))
+  pred_names <- map_chr(enquos(...), as_name)
+  if (length(pred_names) == 0)
+    stop("Supply at least one predictor after the outcome.")
+  
+  # build and fit the model -----------------------------------------
+  fml <- reformulate(pred_names, response = out_name)   # y ~ x1 + x2 + …
+  mod <- polr(fml, data = data, Hess = TRUE)
+  
+  # tidy, exponentiate, format, flag significance -------------------
+  exp(cbind(OR = coef(mod), confint(mod))) %>% 
+  as.data.frame() %>% 
+  rownames_to_column("term") %>%
+  mutate(
+    signif = (`2.5 %` > 1 | `97.5 %` < 1),
+    across(
+      c(OR, `2.5 %`, `97.5 %`),
+      ~ sprintf('%.2f', .x),
+      .names = '{.col}'
+    )
+  )
+}
+```
+
+::: {.panel-tabset}
+
+## Motivators
+
+```{r}
+multivar_polr(
+  data     = df,
+  outcome  = q13_1_cleaned,
+  country, gender, q5_category
+)
+```
+
+## Knowledge-do gap 3
+
+```{r}
+multivar_polr(
+  data     = df,
+  outcome  = q13_8_cleaned,
+  country, gender, q5_category
+)
+```
+
+:::

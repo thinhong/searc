@@ -8,3 +8,5 @@ tmp <- df_long |>
   filter(q11 == "Local staff")
 
 table(tmp$q5_category)
+
+table(df$q11_8_text[df$q11_text_cleaned == "Others"])

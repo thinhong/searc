@@ -58,6 +58,7 @@ execute:
 library(tidyverse)
 library(gtsummary)
 source("code/viz.R")
+source("code/analysis.R")
 
 df <- readRDS("data/data_cleaned.rds")
 
@@ -148,7 +149,7 @@ tbl_summary(
 
 > I think research culture is evolving for the better
 
-The most common responses across the region were "Somewhat agree" to "Strongly agree". However, respondents from Indonesia, Malaysia, Singapore, Brunei, Myanmar, and Timor-Leste showed a higher proportion of neutral to negative responses.
+The most common responses across the region were "Somewhat agree" to "Strongly agree". However, respondents from Indonesia, Malaysia, Philippines, Singapore, Thailand, Brunei, Myanmar, and Timor-Leste showed a higher proportion of neutral to negative responses.
 
 ```{r}
 #| fig-width: 7
@@ -157,6 +158,10 @@ The most common responses across the region were "Somewhat agree" to "Strongly a
 df_plot <- compute_pct_by_country(data = df, country = country, col = q9_1)
 
 plot_pct_by_country(data = df_plot, country = country, col = q9_1, pct = pct, n = n)
+```
+
+```{r}
+uv_polr(df, q9_1, country)
 ```
 
 > There is equity in decision-making and giving credit for research within my organisation
@@ -170,6 +175,10 @@ Overall, most countries leaned towards somewhat or strongly agree. However, 27% 
 df_plot <- compute_pct_by_country(data = df, country = country, col = q9_2)
 
 plot_pct_by_country(data = df_plot, country = country, col = q9_2, pct = pct, n = n)
+```
+
+```{r}
+uv_polr(df, q9_2, country)
 ```
 
 > International research funders and/or foreign researchers dominate the research priorities of my country
@@ -249,12 +258,6 @@ plot_pct_by_country(data = df_plot, country = country, col = q11, pct = pct, n =
 ```{r}
 #| fig-width: 7
 #| fig-height: 3
-df <- df |> 
-  mutate(
-    gender = q1,
-    gender = if_else(gender %in% c("Non-binary / third gender", "Prefer not to say", "Bayot"), "Others", gender)
-  )
-
 df_plot <- compute_pct_by_country(data = df, country = country, col = gender)
 
 plot_pct_by_country(data = df_plot, country = country, col = gender, pct = pct, n = n)
@@ -653,7 +656,7 @@ Overall, participants at UK-funded institutions reported a more positive researc
 
 ```{r}
 df_uk |> 
-  select(q9_1_int:q9_5_int, country, q5_category) |> 
+  dplyr::select(q9_1_int:q9_5_int, country, q5_category) |> 
   mutate(q5_category = factor(q5_category, levels = c("Government funded", "Private and industry", "UK-funded"))) |> 
   tbl_strata(
     strata = country,
@@ -747,3 +750,10 @@ df_long <- df_uk |>
 
 bar_group_country(data = df_long, group = q5_category, country = country, feat = q11)
 ```
+
+
+
+```{r}
+uv_polr(df, q9_1, country, gender, )
+```
+

@@ -33,6 +33,9 @@ df <- df |>
         "Bayot"
       )
     ),
+    gender = q1,
+    gender = if_else(gender %in% c("Non-binary / third gender", "Prefer not to say", "Bayot"), "Others", gender),
+    gender = factor(gender, levels = c("Male", "Female", "Others")),
     # Country based in
     q2 = case_when(
       q2 == "Other, please specify:" & q3 %in% sea_countries ~ q3,
@@ -113,12 +116,38 @@ df <- df |>
       q7
     ),
     q7 = if_else(
+      q7_12_text %in% c(
+        "อาจารย์ (งานหลักคือทำวิจัย +สอน)",
+        "Senior Lecturer who is required to conduct research as part of key performance",
+        "Dosen penuh dan peniliti penuh",
+        "Prof.emeritus",
+        "Senior Lecturer who is required to conduct research as part of key performance.",
+        "Dosen penuh  dan peniliti penuh"
+      ),
+      "Full Professor",
+      q7
+    ),
+    q7 = if_else(
       grepl("coordinator", q7_12_text, ignore.case = T),
       "Research administrator or manager",
       q7
     ),
     q7 = if_else(
       grepl("doctor", q7_12_text, ignore.case = T),
+      "Research doctor or nurse",
+      q7
+    ),
+    q7 = if_else(
+      q7_12_text %in% c(
+        "University physician",
+        "Bác sĩ",
+        "Bác sỹ y học dự phòng",
+        "public health specialist",
+        "allied health professional",
+        "Practising pharmacist involved in some clinical research work",
+        "Research veterinarian",
+        "research pharmacist"
+      ),
       "Research doctor or nurse",
       q7
     ),
@@ -133,7 +162,36 @@ df <- df |>
       q7
     ),
     q7 = if_else(
+      q7_12_text %in% c(
+        "Hỗ trợ kỹ thuật và bảo trì thiết bị phòng xét nghiệm",
+        "Chuyên viên",
+        "Lab analyst"
+      ),
+      "Lab technician",
+      q7
+    ),
+    q7 = if_else(
       grepl("manag|officer", q7_12_text, ignore.case = T),
+      "Research administrator or manager",
+      q7
+    ),
+    q7 = if_else(
+      q7_12_text %in% c(
+        "Administrative",
+        "Nhân viên",
+        "kế toán viên",
+        "Điều phối viên kết nối chính sách",
+        "Staff",
+        "Marketing",
+        "Operations",
+        "ผู้ดูแลนักศึกษา",
+        "เจ้าหน้าที่การเงิน",
+        "Programmer",
+        "Finance admin",
+        "Administrator",
+        "operations team",
+        "Comms"
+      ),
       "Research administrator or manager",
       q7
     ),
@@ -141,13 +199,26 @@ df <- df |>
       q7_12_text %in% c(
         "lecturer with research",
         "Lecturer, 60% teaching and 40% Research",
-        "Lecturer (teaching & research)"
+        "Lecturer (teaching & research)",
+        "Giảng viên và là nhà nghiên cứu",
+        "Petugas lapangan",
+        "M&E",
+        "Lecturer and involved actively in research",
+        "ผู้ประสานงานการวิจัย",
+        "Nghiên cứu độc lập",
+        "Instructor with research function",
+        "Consultant"
       ),
       "Research fellow, post-doctoral fellow, or other research positions",
       q7
     ),
     q7 = if_else(
-      q7_12_text %in% c("Lecturer, main job is teaching, with some research"),
+      q7_12_text %in% c(
+        "Lecturer, main job is teaching, with some research",
+        "Lecturer", 
+        "គ្រូបង្រៀនពេញុម៉ោង",
+        "Senior High Instructor"
+        ),
       "Lecturer (main job is teaching, no research)",
       q7
     ),
@@ -180,6 +251,23 @@ df <- df |>
       TRUE ~ q8
     ),
     # Main questions
+    ## Clean the I don't know how to answer
+    across(
+      .cols   = all_of(paste0("q9_", 1:5)),
+      .fns    = ~ factor(
+        ifelse(.x == "I don't know how to answer", NA, .x),
+        levels  = c(
+          "Strongly disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Strongly agree"
+        ),
+        ordered = TRUE
+      ),
+      .names  = "{.col}_cleaned"
+    ),
+    ## Factor for order
     across(
       c(q9_1, q9_2, q9_3, q9_4, q9_5),
       ~ factor(
@@ -195,10 +283,17 @@ df <- df |>
         ordered = T
       )
     ),
+    ## Make score 1-6
     across(
       .cols = c(q9_1, q9_2, q9_3, q9_4, q9_5),
       .fns = as.integer,
       .names = "{.col}_int"
+    ),
+    ## Exclude 6 as NA
+    across(
+      .cols  = all_of(paste0('q9_', 1:5, '_int')),
+      .fns   = ~ na_if(.x, 6),
+      .names = "{.col}_cleaned"
     ),
     q10 = factor(q10, levels = c("No", "Yes")),
     q11_text_cleaned = case_when(
@@ -214,6 +309,9 @@ df <- df |>
         "Non-foreigners"
       ) ~ "Local staff",
       q11_8_text %in% c("non postgraduate degree") ~ "Non-PhD holders",
+      q11_8_text %in% c("English barrier", "Non-English proficient", "low skill to written resseacrh topic", "Lack of soft skills") ~ "English/writing proficiency",
+      q11_8_text %in% c("Malaysia and Brunei: Non-Muslim (I wouldn't specify this as an Ethnic minority but a religious minority)", "Religious minorities, people from lower SES") ~ "Religious minority",
+      q11_8_text %in% c("no", "No discrimination in my country,people who work hard can get good positions.", "my knowledge in this area is limited") ~ NA_character_,
       is.na(q11_8_text) ~ NA_character_,
       TRUE ~ "Others"
     ),
@@ -221,8 +319,52 @@ df <- df |>
       grepl("Others, please specify:", q11),
       str_replace(q11, fixed("Others, please specify:"), q11_text_cleaned),
       q11
-    )
+    ),
+    ## Clean the I don't know how to answer
+    across(
+      .cols   = q13_1:q16_4,
+      .fns    = ~ factor(
+        ifelse(.x == "I don't know how to answer", NA, .x),
+        levels  = c(
+          "Strongly disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Strongly agree"
+        ),
+        ordered = TRUE
+      ),
+      .names  = "{.col}_cleaned"
+    ),
+    across(
+      q13_1:q16_4,
+      ~ factor(
+        .x,
+        levels = c(
+          "Strongly disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Strongly agree",
+          "I don't know how to answer"
+        ),
+        ordered = T
+      )
+    ),
+    across(
+      .cols = q13_1:q16_4,
+      .fns = as.integer,
+      .names = "{.col}_int"
+    ),
+    ## Exclude 6 as NA
+    across(
+      .cols  = q13_1_int:q16_4_int,
+      .fns   = ~ na_if(.x, 6),
+      .names = "{.col}_cleaned"
+    ),
   ) |>
   filter(q2 != "Others")
 
 saveRDS(df, "data/data_cleaned.rds")
+
+
