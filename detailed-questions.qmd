@@ -341,6 +341,8 @@ Overall, respondents from Southeast Asian countries felt less confident about be
 plot_level_median(summary_df, 'Interpersonal')
 ```
 
+Almost all countries feel neutral to somewhat agree that there are sometimes tensions between researchers from different departments, disciplines or countries at their organisation (Relationships amongst 1). Respondents from Malaysia, Philippines, Singapore, Brunei, Myanmar, Timor Leste were less satisfied with the level of research mentorship they currently receive (Relationships between 2).
+
 ::: {.callout-note collapse="true"}
 
 ## Questions
@@ -361,7 +363,7 @@ plot_level_median(summary_df, 'Interpersonal')
 plot_level_median(summary_df, 'Institutional')
 ```
 
-The majorities of countries are concerning about resources availability, such as there are not sufficient resources to conduct quality research at their organization (Resources 1), the organization may not has specific programs to help new academics (Resources 2), or not having enough support for new or junior researchers to get initial grants or publications (Resources 3).
+The majorities of countries are concerning about resources availability, such as there are not sufficient resources to conduct quality research at their organization (Resources 1), the organization may not has specific programs to help new academics (Resources 2), or not having enough support for new or junior researchers to get initial grants or publications (Resources 3). Respondents from Cambodia, Lao PDR and Philippines thought their organization prioritizes other activities, such as teaching, over research (Policies & practice 2).
 
 ::: {.callout-note collapse="true"}
 
@@ -424,7 +426,7 @@ summary_df <- summary_by_group(
 plot_level_median(summary_df, group_var = gender, 'Individual')
 ```
 
-Female and others gender 
+Compared to male respondents, female and others gender reported lower scores on whether they are fairly compensated for the time dedicated to research (Knowledge-do gap 3).
 
 ### Interpersonal level
 
@@ -435,6 +437,8 @@ Female and others gender
 plot_level_median(summary_df, group_var = gender, 'Interpersonal')
 ```
 
+Other genders respondents were less likely to feel tensions between researchers from different departments, disciplines or countries.
+
 ### Institutional level
 
 ```{r}
@@ -443,6 +447,8 @@ plot_level_median(summary_df, group_var = gender, 'Interpersonal')
 #| out-width: "100%"
 plot_level_median(summary_df, group_var = gender, 'Institutional')
 ```
+
+Female respondents were less confident that their organization can deal with bullying, harassment, including whistleblowing fairly (Accountability 3). Female respondents also less likely to agree that their organization has initiatives to support new or junior researchers to get initial grants or publications (Resources 3).
 
 ### Inter-institutional level
 
@@ -453,36 +459,246 @@ plot_level_median(summary_df, group_var = gender, 'Institutional')
 plot_level_median(summary_df, group_var = gender, 'Inter-institutional')
 ```
 
+Other genders respondents were more positive about this area compared to male and female. There was no difference between male and female.
+
 ## Comparison by career stage
+
+```{r}
+df_career <- df |> 
+  filter(!is.na(seniority))
+summary_df <- summary_by_group(
+  data      = df_career,
+  meta      = meta,
+  group_var = seniority
+)
+```
+
 
 ### Individual level
 
+```{r}
+#| fig-width: 6.3
+#| fig-height: 4
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = seniority, 'Individual')
+```
+
+Early career researchers—including students, research assistants, research fellows, postdocs, and assistant researchers—reported feeling less equally valued compared to their Western or high-income country research colleagues (Values & Behaviours 2). Along with lecturers, they also felt they were not fairly compensated for the time they dedicate to research. Research assistants and research health professionals expressed concerns that their mental or physical health needs were not adequately supported (Mental health), and they also worried that limited English proficiency may affect their experience in conducting research (Knowledge–Do Gap 2). Research health professionals, lecturers, and assistant professors felt they did not have enough time in their schedules to conduct research.
+
 ### Interpersonal level
+
+```{r}
+#| fig-width: 6
+#| fig-height: 3
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = seniority, 'Interpersonal')
+```
+
+Lecturers were less likely to agree that their contributions are fairly recognised by senior colleagues in research outputs such as papers and conference presentations (Relationships Amongst 2). They also felt that their supervisors may not be supportive in valuing their contributions or encouraging them to prioritise research (Relationships Between 1). Both lecturers and assistant professors reported lower satisfaction with the level of research mentorship they currently receive.
 
 ### Institutional level
 
+```{r}
+#| fig-width: 6.3
+#| fig-height: 5
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = seniority, 'Institutional')
+```
+
+Assistant professors were less confident that their organisation handles cases of unethical research conduct fairly (Accountability 2). They were also uncertain whether the research funding their organisation receives reflects national or contextual priorities (Policies & Practice 5), and they did not believe their institution offers specific programmes to support new academics in starting their research or developing core skills such as academic writing, literature review, and data analysis (Resources 2). Research support staff, lecturers, and assistant professors felt that their organisation prioritises other activities over research (Policies & Practice 2). Students, lecturers, assistant professors, and senior faculty members reported that their institution lacks sufficient resources to conduct quality research (Resources 1). Additionally, students and lecturers felt there were not enough initiatives to support new or junior researchers in securing initial grants or publications (Resources 3).
+
 ### Inter-institutional level
+
+```{r}
+#| fig-width: 6.3
+#| fig-height: 3
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = seniority, 'Inter-institutional')
+```
+
+Students and research assistants were less likely to agree that they had an overall positive experience collaborating on research projects with institutions outside Southeast Asia (Relationship between organisations 2).
 
 ## Comparison by scientific discipline
 
+```{r}
+df_long <- df |>
+  separate_rows(q8, sep = ";") |>
+  mutate(q8 = str_trim(q8)) |>
+  filter(q8 != "Other, please specify:") |> 
+  drop_na(q8)
+
+summary_df <- summary_by_group(
+  data      = df_long,
+  meta      = meta,
+  group_var = q8
+)
+```
+
+
 ### Individual level
+
+```{r}
+#| fig-width: 7.5
+#| fig-height: 4
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = q8, 'Individual')
+```
+
+Respondents in psychology, behavioural science, social sciences, and humanities were less confident that their mental and physical health needs are adequately supported (Mental health). Those in psychology and behavioural science were also less positive about being fairly compensated for the time they dedicate to research (Knowledge–Do Gap 3) and felt they did not have enough time in their day-to-day schedules to conduct research (Knowledge–Do Gap 4).
 
 ### Interpersonal level
 
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = q8, 'Interpersonal')
+```
+
+Respondents in psychology, behavioural science, social sciences, and humanities were less satisfied with the level of research mentorship they currently receive (Relationships Between 2).
+
 ### Institutional level
 
+```{r}
+#| fig-width: 7
+#| fig-height: 5
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = q8, 'Institutional')
+```
+
+Respondents in STEM fields were more likely to feel that their organisation prioritises other activities, such as teaching, over research (Policies & Practice 2). Meanwhile, respondents in psychology and behavioural science were less likely to agree that their organisation provides specific programmes to help new academics start their research and develop academic skills (Resources 2), and they also reported fewer initiatives supporting new or junior researchers in securing initial grants or publications (Resources 3).
+
 ### Inter-institutional level
+
+```{r}
+#| fig-width: 6.3
+#| fig-height: 3
+#| out-width: "100%"
+plot_level_median(summary_df, group_var = q8, 'Inter-institutional')
+```
+
+There were no significant difference between scientific discipline in these questions.
 
 ## Comparison by funding source (with a focus on UK-funded)
 
+```{r}
+df_uk <- df |>
+  filter(q5_category != "Others",
+         country %in% c("Lao PDR", "Thailand", "Vietnam"))
+
+# 1. reshape to long ------------------------------------------------
+long_df <- df_uk %>% 
+  dplyr::select(country, q5_category, all_of(meta$item)) %>% 
+  pivot_longer(-c(q5_category, country), names_to = 'item', values_to = 'score') %>% 
+  filter(!is.na(score)) %>% 
+  left_join(meta, by = 'item') %>% 
+  mutate(
+    label = factor(label, levels = meta$label)   # preserve facet order
+  )
+  
+  # 2. summary statistics --------------------------------------------
+summary_df <- long_df %>% 
+    group_by(level, label, q5_category, country) %>% 
+    summarise(
+      med = median(score, na.rm = TRUE),
+      q1  = quantile(score, 0.25, na.rm = TRUE),
+      q3  = quantile(score, 0.75, na.rm = TRUE),
+      .groups = 'drop'
+    )
+
+plot_level_median2 <- function(data,
+                              lvl,
+                              palette   = "Paired") {
+  
+  ggplot(
+    filter(data, level == lvl),
+    aes(
+      y      = fct_rev(as.factor(q5_category)),   # reverse order for y-axis
+      x      = med,
+      xmin   = q1,
+      xmax   = q3,
+      colour = fct_rev(as.factor(q5_category))    # same variable drives colour
+    )
+  ) +
+    geom_pointrange(size = .7, fatten = 2) +
+    facet_grid(rows = vars(country), cols = vars(label)) +
+    scale_x_continuous(breaks = 1:5, limits = c(1, 5)) +
+    scale_colour_brewer(palette = palette) +
+    labs(
+      title = paste(lvl, "level"),
+      x     = NULL,
+      y     = NULL
+    ) +
+    theme_bw() +
+    theme(
+      axis.text.y     = element_text(hjust = 1),
+      plot.title      = element_text(hjust = 0, face = "bold"),
+      legend.position = "none"
+    )
+}
+```
+
+
 ### Individual level
+
+```{r}
+#| fig-width: 8
+#| fig-height: 2.5
+#| out-width: "100%"
+
+plot_level_median2(summary_df, lvl = 'Individual')
+```
+
+In Lao PDR, respondents from UK-funded institutions were more confident that researchers are held to high standards of ethical research practice (Values & Behaviours 1) compared to those from government-funded institutions. However, they felt less equally valued compared to their Western or high-income country research colleagues (Values & Behaviours 2). They were also less confident that their mental and physical health needs are well addressed (Mental health) and felt inadequately compensated for the time they dedicate to research (Knowledge–Do Gap 3).
+
+In Thailand, respondents from UK-funded institutions reported greater enjoyment in their research activities (Motivators) and higher confidence that researchers are held to high ethical standards (Values & Behaviours 1) compared to those in government-funded institutions.
+
+In Vietnam, respondents from UK-funded institutions also felt less equally valued compared to their Western or high-income country peers (Values & Behaviours 2), but they perceived their mental and physical health needs to be better supported (Mental health).
 
 ### Interpersonal level
 
+```{r}
+#| fig-width: 6
+#| fig-height: 2.5
+#| out-width: "100%"
+plot_level_median2(summary_df, lvl = 'Interpersonal')
+```
+
+In Lao PDR, respondents from UK-funded institutions reported fewer tensions between researchers from different departments, disciplines, or countries (Relationships Amongst 1).
+
+In Thailand, respondents from UK-funded institutions did not differ significantly from those in government or private institutions in terms of interpersonal relationships.
+
+In Vietnam, respondents from UK-funded institutions felt that their contributions were less recognised by senior colleagues in research outputs such as papers and conference presentations (Relationships Amongst 2).
+
 ### Institutional level
+
+```{r}
+#| fig-width: 10
+#| fig-height: 2.5
+#| out-width: "100%"
+plot_level_median2(summary_df, lvl = 'Institutional')
+```
+
+In Lao PDR, respondents from UK-funded institutions were less likely to feel that their organisation prioritises other activities—such as teaching—over research (Policies & Practice 2), and more likely to believe there are sufficient resources to conduct quality research at their organisation (Resources 1), compared to those in government-funded institutions.
+
+In Thailand, respondents from UK-funded institutions were more confident that their organisation can handle cases of bullying, harassment, and whistleblowing fairly (Accountability 3). They were also more likely to agree that their organisation has systems and resources to support research (Policies & Practice 1), compared to government-funded institutions. In addition, they were less likely to feel that their organisation prioritises teaching over research (Policies & Practice 2), and they reported fewer challenges in keeping up with the research expectations of their organisation (Pressure).
+
+In Vietnam, compared to government-funded institutions, respondents from UK-funded institutions were more confident that they could report inappropriate research or professional conduct if witnessed (Accountability 1). They were also more likely to agree that their organisation has systems and resources to support research (Policies & Practice 1), offers opportunities for professional development and research growth (Policies & Practice 4), provides programmes to help new academics start research and learn academic skills such as writing, literature review, and data analysis (Resources 2), and has initiatives to support new or junior researchers in obtaining initial grants or publications (Resources 3). Additionally, they were less likely to feel that their organisation prioritises teaching over research (Policies & Practice 2).
 
 ### Inter-institutional level
 
+```{r}
+#| fig-width: 6
+#| fig-height: 2.5
+#| out-width: "100%"
+plot_level_median2(summary_df, lvl = 'Inter-institutional')
+```
+
+In Lao PDR, compared to government-funded institutions, respondents from UK-funded institutions were less likely to report having a positive experience collaborating on research projects with institutions beyond Southeast Asia (Relationships Between Organisations 2). They also felt less strongly that their organisation and team are considered equal partners in collaborations with other institutions and teams (Power 1).
+
+In Thailand, respondents from UK-funded institutions were more positive across all aspects of collaborative experience compared to those in government-funded institutions. They reported more positive experiences collaborating with institutions both within and beyond Southeast Asia, felt their organisation and team were considered equal partners (Power 1), and believed their organisation received fair recognition in collaborative research outputs such as papers and conference presentations.
+
+In Vietnam, respondents from UK-funded institutions reported more positive experiences collaborating on research projects within Southeast Asia (Relationships Between Organisations 1), but less positive experiences with collaborations beyond the region (Relationships Between Organisations 2), compared to those from government-funded institutions.
 
 ## Multivariable analysis
 

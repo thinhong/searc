@@ -239,6 +239,30 @@ df <- df |>
         "Other, please specify:"
       )
     ),
+    seniority = case_when(
+      q7 == "Student (BSc, BA, MSc, MA, MPH, MD, PhD)" ~ "Student",
+      q7 == "Research assistant" ~ "Research assistant",
+      q7 == "Research fellow, post-doctoral fellow, or other research positions" ~ "Research fellow, postdoc, researcher",
+      q7 %in% c("Lab technician", "Research doctor or nurse") ~ "Research health professional",
+      q7 == "Lecturer (main job is teaching, no research)" ~ "Lecturer or teacher",
+      q7 == "Research administrator or manager" ~ "Research support staff",
+      q7 == "Assistant Professor" ~ "Assistant Professor",
+      q7 %in% c("Associate Professor", "Full Professor", "Dean or Head of Department") ~ "Senior faculty position",
+      .default = NA
+    ),
+    seniority = factor(
+      seniority,
+      levels = c(
+        "Student",
+        "Research assistant",
+        "Research support staff",
+        "Research health professional",
+        "Research fellow, postdoc, researcher",
+        "Lecturer or teacher",
+        "Assistant Professor",
+        "Senior faculty position"
+      )
+    ),
     # Area of research
     q8 = str_replace(q8, ",Other, please specify:", ""),
     q8 = str_replace_all(q8, ",([A-Z])", ";\\1"),
